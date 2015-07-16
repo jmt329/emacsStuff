@@ -1,13 +1,14 @@
 ;; visual stuff
-(menu-bar-mode -1)
-(tool-bar-mode -1)
+(menu-bar-mode -1) ; hide menu bar
+(tool-bar-mode -1) ; hide tool bar
 (set-default-font "Monaco-14")
-(setq show-paren-delay 0)
-(show-paren-mode 1)
-(setq-default indent-tabs-mode nil)
-;; make GUI better
-(add-to-list 'default-frame-alist '(height . 44))
-(setq ns-pop-up-frames nil)
+(setq show-paren-delay 0) ; no delay in highlighting
+(show-paren-mode 1) ; highlight matching parentheses
+(setq-default indent-tabs-mode nil) ; tabs are evil
+(setq column-number-mode t) ; show columns in mode line as well
+;; make GUI better (but still not great)
+(add-to-list 'default-frame-alist '(height . 44)) ; make it start taller
+(setq ns-pop-up-frames nil) ; stops creation of extra frame
 
 ;; load emacs package managers
 (require 'package)
@@ -25,7 +26,7 @@
   (package-refresh-contents))
 (defvar jmt/packages
   ;; list packages here with spaces inbetween
-  '(auto-complete auto-complete-c-headers color-theme-solarized elpy flymake-cppcheck flymake-cursor yasnippet))
+  '(auctex auto-complete auto-complete-c-headers color-theme-solarized elpy flymake-cppcheck flymake-cursor yasnippet))
 (dolist (p jmt/packages)
   (when (not (package-installed-p p))
     (package-install p)))
@@ -97,7 +98,7 @@
  '(custom-safe-themes
    (quote
     ("8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
- '(frame-background-mode (quote dark))
+ '(background-mode (quote dark))
  '(inhibit-startup-screen t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
