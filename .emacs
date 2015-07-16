@@ -85,11 +85,7 @@
         (progn
           (re-search-backward "[^ \t\r\n]" nil t)
           (re-search-forward "[ \t\r\n]+" nil t)
-          (replace-match "" nil nil))
-        )
-      )
-    )
-  )
+          (replace-match "" nil nil))))))
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (custom-set-variables
@@ -108,4 +104,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:inherit nil :stipple nil :background "#232323" :foreground "#A5C25B" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 135 :width normal :foundry "nil" :family "Monaco"))))
+ '(highlight-indentation-face ((t (:inherit fringe :background "#666666")))))
