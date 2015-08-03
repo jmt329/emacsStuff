@@ -6,6 +6,7 @@
 (show-paren-mode 1) ; highlight matching parentheses
 (setq-default indent-tabs-mode nil) ; tabs are evil
 (setq column-number-mode t) ; show columns in mode line as well
+(electric-pair-mode 1) ; instert paired braces
 ;; make GUI better (but still not great)
 (add-to-list 'default-frame-alist '(height . 44)) ; make it start taller
 (setq ns-pop-up-frames nil) ; stops creation of extra frame
@@ -26,7 +27,8 @@
   (package-refresh-contents))
 (defvar jmt/packages
   ;; list packages here with spaces inbetween
-  '(auctex auto-complete auto-complete-c-headers color-theme-solarized elpy flymake-cppcheck flymake-cursor yasnippet))
+  '(ample-theme auctex auto-complete auto-complete-c-headers elpy flymake-cppcheck
+                flymake-cursor yasnippet))
 (dolist (p jmt/packages)
   (when (not (package-installed-p p))
     (package-install p)))
@@ -77,6 +79,9 @@
 ;; python editiing
 (elpy-enable)
 
+;; verilog editting
+(setq verilog-auto-newline nil)
+
 (defun kill-whitespace ()
   "Kill the whitespace between two non-whitespace characters"
   (interactive "*")
@@ -94,16 +99,16 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (solarized)))
+ '(ansi-color-names-vector
+   ["#504545" "#ad8572" "#a9df90" "#aaca86" "#91a0b3" "#ab85a3" "#ddbc91" "#bdbdb3"])
+ '(custom-enabled-themes (quote (ample)))
  '(custom-safe-themes
    (quote
-    ("8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
- '(background-mode (quote dark))
+    ("e8a9dfa28c7c3ae126152210e3ccc3707eedae55bdc4b6d3e1bb3a85dfb4e670" "c006bc787154c31d5c75e93a54657b4421e0b1a62516644bd25d954239bc9933" "de8fa309eed1effea412533ca5d68ed33770bdf570dcaa458ec21eab219821fd" default)))
  '(inhibit-startup-screen t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#232323" :foreground "#A5C25B" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 135 :width normal :foundry "nil" :family "Monaco"))))
- '(highlight-indentation-face ((t (:inherit fringe :background "#666666")))))
+ )
