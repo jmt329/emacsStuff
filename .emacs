@@ -1,7 +1,6 @@
 ;; visual stuff
 (menu-bar-mode -1) ; hide menu bar
 (tool-bar-mode -1) ; hide tool bar
-(set-default-font "Monaco-14")
 (setq show-paren-delay 0) ; no delay in highlighting
 (show-paren-mode 1) ; highlight matching parentheses
 (setq-default indent-tabs-mode nil) ; tabs are evil
