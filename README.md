@@ -1,2 +1,2 @@
 # emacsStuff
-access to my .emacs
+Version control and access to my .emacs file.
