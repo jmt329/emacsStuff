@@ -4,8 +4,8 @@
 (setq show-paren-delay 0) ; no delay in highlighting
 (show-paren-mode 1) ; highlight matching parentheses
 (setq-default indent-tabs-mode nil) ; tabs are evil
+(setq warning-minimum-level :error)
 (setq column-number-mode t) ; show columns in mode line as well
-(electric-pair-mode 1) ; instert paired braces
 ;; make GUI better (but still not great)
 (add-to-list 'default-frame-alist '(height . 44)) ; make it start taller
 (setq ns-pop-up-frames nil) ; stops creation of extra frame
