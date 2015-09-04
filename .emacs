@@ -4,6 +4,7 @@
 (setq show-paren-delay 0) ; no delay in highlighting
 (show-paren-mode 1) ; highlight matching parentheses
 (setq-default indent-tabs-mode nil) ; tabs are evil
+(setq tab-width 2) ; 2 spaces per tab
 (setq warning-minimum-level :error)
 (setq column-number-mode t) ; show columns in mode line as well
 ;; make GUI better (but still not great)
