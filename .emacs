@@ -65,11 +65,11 @@
 ;; To get project includes in another directory working
 ;; turn on ede mode
 ;; (global-ede-mode 1)
-;; ;; create a project for our program.
+;; create a project for our program.
 ;; (ede-cpp-root-project "my project" :file "~/demos/my_program/src/main.cpp"
 ;;                       :include-path '("/../my_inc"))
-;; ;; you can use system-include-path for setting up the system header file locations.
-;; ;; turn on automatic reparsing of open buffers in semantic
+;; can use system-include-path for setting up the system header file locations.
+;; turn on automatic reparsing of open buffers in semantic
 ;; (global-semantic-idle-scheduler-mode 1)
 
 ;; cppcheck for c/c++ files
