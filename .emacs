@@ -5,6 +5,7 @@
 (show-paren-mode 1) ; highlight matching parentheses
 (setq-default indent-tabs-mode nil) ; tabs are evil
 (setq tab-width 2) ; 2 spaces per tab
+(setq show-trailing-whitespace t)
 (setq warning-minimum-level :error)
 (setq column-number-mode t) ; show columns in mode line as well
 ;; make GUI better (but still not great)
@@ -27,20 +28,23 @@
   (package-refresh-contents))
 (defvar jmt/packages
   ;; list packages here with spaces inbetween
-  '(auctex auto-complete auto-complete-c-headers elpy flymake-cppcheck
-           flymake-cursor solarized-theme yasnippet))
+  '(auctex auto-complete auto-complete-c-headers auto-complete-auctex elpy
+           flymake-cppcheck flymake-cursor solarized-theme yasnippet))
 (dolist (p jmt/packages)
   (when (not (package-installed-p p))
     (package-install p)))
 
+;; start yasnippet with emacs
+(require 'yasnippet)
+(yas-global-mode 1)
 ;; start auto-complete with emacs
 (require 'auto-complete)
 ;; do defult config for auto-complete
 (require 'auto-complete-config)
 (ac-config-default)
-;; start yasnippet with emacs
-(require 'yasnippet)
-(yas-global-mode 1)
+(setq ac-auto-start t)
+(setq ac-auto-show-menu t)
+(global-auto-complete-mode t)
 
 ;; function which initializes auto-complete-c-headers and gets called for
 ;; c/c++ hooks
@@ -78,9 +82,33 @@
 
 ;; python editiing
 (elpy-enable)
+(add-hook 'python-mode-hook
+(lambda ()
+(setq indent-tabs-mode nil)
+(setq tab-width 2)
+(setq python-indent 2)))
 
 ;; verilog editting
-(setq verilog-auto-newline nil)
+;(setq verilog-tab-always-indent nil)
+(setq verilog-auto-newline nil
+      verilog-indent-level 2
+      verilog-indent-level-module 2
+      verilog-indent-level-declaration 2
+      verilog-indent-level-behavioral 2
+      verilog-indent-level-directive 1
+      verilog-indent-begin-after-if nil
+      verilog-indent-lists t
+      verilog-indent-declaration-macros nil
+      verilog-case-indent 2
+      verilog-minimum-comment-distance 12
+      verilog-align-ifelse t
+      verilog-auto-endcomments nil)
+
+;; latex edititing
+(require 'auto-complete-auctex)
+(setq-default TeX-master nil)
+(setq TeX-parse-self t)
+(setq TeX-auto-save t)
 
 (defun kill-whitespace ()
   "Kill the whitespace between two non-whitespace characters"
@@ -94,11 +122,11 @@
           (replace-match "" nil nil))))))
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(require 'whitespace)
-(setq whitespace-line-column 80) ;; limit line length
-(setq whitespace-style '(face lines-tail))
+;(require 'whitespace)
+;(setq whitespace-line-column 80) ;; limit line length
+;(setq whitespace-style '(face lines-tail))
 
-(global-whitespace-mode +1)
+;(global-whitespace-mode +1)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
