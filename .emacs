@@ -8,7 +8,7 @@
 (setq show-trailing-whitespace t)
 (setq warning-minimum-level :error)
 (setq column-number-mode t) ; show columns in mode line as well
-;; make GUI better (but still not great)
+;; make GUI better
 (add-to-list 'default-frame-alist '(height . 44)) ; make it start taller
 (setq ns-pop-up-frames nil) ; stops creation of extra frame
 
@@ -122,9 +122,9 @@
           (replace-match "" nil nil))))))
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;(require 'whitespace)
-;(setq whitespace-line-column 80) ;; limit line length
-;(setq whitespace-style '(face lines-tail))
+(require 'whitespace)
+(setq whitespace-line-column 80) ;; limit line length
+(setq whitespace-style '(face lines-tail))
 
 ;(global-whitespace-mode +1)
 
