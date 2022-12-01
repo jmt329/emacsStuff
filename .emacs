@@ -23,6 +23,17 @@
 (setq compilation-scroll-output t) ; scroll automatically
 (setq ring-bell-function 'ignore) ; disable alarm bell
 
+;; -----------------------------------------------------------------------------
+;; mac
+;; -----------------------------------------------------------------------------
+(defun my-comint-init ()
+  (setq comint-process-echoes t))
+
+(when (equal system-type 'darwin)
+  (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier 'super)
+  (add-hook 'comint-mode-hook 'my-comint-init))
+
 ;;------------------------------------------------------------------------------
 ;; backup files
 ;;------------------------------------------------------------------------------
@@ -32,25 +43,46 @@
 ;; packages
 ;;------------------------------------------------------------------------------
 (require 'package)
-(require 'compile)
-(dolist (source '(("melpa" . "http://melpa.milkbox.net/packages/")
-                  ))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
+;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
+;; and `package-pinned-packages`. Most users will not need or want to do this.
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
   (package-initialize)
-  (add-to-list 'package-archives source t))
+
+(require 'compile)
 
 (eval-when-compile
-  (add-to-list 'load-path "~/.emacs.d/use-package") ; foo
-  (require 'use-package)) ; bar
+  (add-to-list 'load-path "~/.emacs.d/use-package")
+  (require 'use-package))
+
+(use-package company
+  :ensure
+  :custom
+  (company-idle-delay 0.5) ;; how long to wait until popup
+  ;; (company-begin-commands nil) ;; uncomment to disable popup
+  :bind
+  (:map company-active-map
+	      ("C-n". company-select-next)
+	      ("C-p". company-select-previous)
+	      ("M-<". company-select-first)
+	      ("M->". company-select-last)))
 
 (use-package yasnippet
-  :load-path "~/.emacs.d/yasnippet"
-  :config (yas-global-mode 1))
+  :ensure
+  :config
+  (yas-reload-all)
+  (add-hook 'prog-mode-hook 'yas-minor-mode)
+  (add-hook 'text-mode-hook 'yas-minor-mode))
+
 
 (use-package ws-butler
+  :ensure t
   :load-path "~/.emacs.d/ws-butler"
   :hook ((prog-mode . ws-butler-mode)))
 
 (use-package helm
+  :ensure t
   :bind (("C-x C-b" . 'helm-buffers-list)
          ("M-y"     . 'helm-show-kill-ring)
          ("M-x"     . 'helm-M-x))
@@ -78,6 +110,56 @@
   ;; Corrects (and improves) org-mode's native fontification.
   ;;(doom-themes-org-config))
   )
+
+(use-package rustic
+  :ensure
+  :bind (:map rustic-mode-map
+              ("M-j" . lsp-ui-imenu)
+              ("M-?" . lsp-find-references)
+              ("C-c C-c l" . flycheck-list-errors)
+              ("C-c C-c a" . lsp-execute-code-action)
+              ("C-c C-c r" . lsp-rename)
+              ("C-c C-c q" . lsp-workspace-restart)
+              ("C-c C-c Q" . lsp-workspace-shutdown)
+              ("C-c C-c s" . lsp-rust-analyzer-status))
+  :config
+  ;; uncomment for less flashiness
+  ;; (setq lsp-eldoc-hook nil)
+  (setq lsp-enable-symbol-highlighting nil)
+  ;; (setq lsp-signature-auto-activate nil)
+
+  ;; comment to disable rustfmt on save
+  (setq rustic-format-on-save t)
+  (add-hook 'rustic-mode-hook 'rk/rustic-mode-hook))
+
+(defun rk/rustic-mode-hook ()
+  ;; so that run C-c C-c C-r works without having to confirm, but don't try to
+  ;; save rust buffers that are not file visiting. Once
+  ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
+  ;; no longer be necessary.
+  (when buffer-file-name
+    (setq-local buffer-save-without-query t)))
+
+(use-package lsp-mode
+  :ensure
+  :commands lsp
+  :custom
+  ;; what to use when checking on-save. "check" is default, I prefer clippy
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-eldoc-render-all t)
+  (lsp-idle-delay 0.6)
+  (lsp-rust-analyzer-server-display-inlay-hints t)
+  :config
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+(use-package lsp-ui
+  :ensure
+  :commands lsp-ui-mode
+  :custom
+  (lsp-ui-peek-always-show t)
+  (lsp-ui-sideline-show-hover t)
+  (lsp-ui-doc-enable nil)
+  (lsp-headerline-breadcrumb-enable nil))
 
 (use-package systemrdl-mode
   :load-path "~/.emacs.d/systemrdl-mode"
